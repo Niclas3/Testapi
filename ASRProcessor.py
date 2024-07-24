@@ -4,6 +4,8 @@ import dashscope
 from dashscope.audio.asr import Recognition
 import time
 import LogHelper
+import sys  #for let systemd know OS error happend
+import re
 
 class ASRProcessor:
     def __init__(self, api_key, prompt,logger):
@@ -26,6 +28,10 @@ class ASRProcessor:
             self.log.logger.info('Recognition done!'+txts)    
         else:
             self.log.logger.error('Error: ', result.message)
+            pattern = r"Errno\s*24"
+            matches = re.findall(pattern, result.message)
+            if matches != []:
+                sys.exit(1) # some bad things happened server need to restart NOW!
         messages = [{'role': 'system', 'content':self.prompt},
                     {'role': 'user', 'content': '录音对话内容如下：'+txts}]
 
