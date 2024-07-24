@@ -1,0 +1,17 @@
+[Unit]
+Description=water remove api
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/PersonalCreditOCR/python
+ExecStart=/usr/local/bin/python3 /home/PersonalCreditOCR/python/watermarkapi.py
+KillSignal=SIGQUIT
+TimeoutStopSec=5
+KillMode=process
+PrivateTmp=true
+StandardOutput=syslog
+StandardError=inherit
+
+[Install]
+WantedBy=multi-user.target
