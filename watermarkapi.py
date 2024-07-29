@@ -63,6 +63,7 @@ def voice_factor(localFileUrl,key,prompt):
         code=-1
         message=f"调用异常,{str(e)}"
         logger.logger.error('Error : ' + str(e))
+        exit_service()
     
     data1=None
     data2=None
@@ -152,6 +153,12 @@ def levelsDeal(img, black,white):
     img_array = np.around(img_array, 0)
     img_array = img_array.astype(int)
     return img_array
+
+def exit_service():
+    pattern = r"Errno\s*24"
+    matches = re.findall(pattern, result.message)
+    if matches != []:
+        sys.exit(1) # some bad things happened server need to restart NOW!
 
 def main():
     global logger
